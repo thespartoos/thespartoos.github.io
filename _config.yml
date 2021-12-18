@@ -5,9 +5,9 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "localhost:3000" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
 
 # User settings
-username: Thespartoos
-user_description: Mi nombre es Alejandro Ruiz un técnico informático en sistemas microinformáticos y redes, un entusiasta en la ciberseguridad. Desde pequeño siempre me llamó la atención los ordenadores y cuando llegué a la adolescencia ya tenía claro en gran parte que quería ser. A partir de ahí empecé ha icrementar mis conocimientos en informática, concretamente en el campo de la seguridad informática, realizando cursos, visitando foros, viendo videos; Y todo de forma autodidácta. Actualmente sigo estudiando y en camino del Grado Superior "DAW" (Desarrollo Aplicaciones Web)
-user_title: Técnico en Sistemas microinformáticos y redes
+username: Alejandro Ruiz
+user_description: Soy Alejandro Ruiz un técnico informático en sistemas microinformáticos y redes, un entusiasta en la ciberseguridad. Desde pequeño siempre me llamó la atención los ordenadores y cuando llegué a la adolescencia ya tenía claro en gran parte que quería ser. A partir de ahí empecé ha icrementar mis conocimientos en informática, concretamente en el campo de la seguridad informática, realizando cursos, visitando foros, viendo videos; Y todo de forma autodidácta. Actualmente sigo estudiando y en camino del Grado Superior "DAW" (Desarrollo Aplicaciones Web)
+user_title: Thespartoos | Pentester
 email: alejandrorm689@gmail.com
 twitter_username: thespartoos
 github_username:  thespartoos

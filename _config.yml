@@ -74,7 +74,7 @@ theme_mode: dark
 img_cdn: "https://chirpy-img.netlify.app"
 
 # the avatar on sidebar, support local or CORS resources
-avatar: "http://localhost:4000/assets/img/favicons/logo.png"
+avatar: "http://thespartoos.github.io/assets/img/favicons/logo.png"
 
 # boolean type, the global switch for TOC in posts.
 toc: true

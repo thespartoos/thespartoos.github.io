@@ -5,7 +5,7 @@ date: 2023-10-16 00:34:00 +0800
 tags: [Binary Exploitation]
 categories: [Buffer Overflow x32]
 image:
-  path: http://localhost:4000/assets/img/favicons/AslrBypass/aslr-portada.png
+  path: https://thespartoos.github.io/assets/img/favicons/AslrBypass/aslr-portada.png
   alt: 
 ---
 

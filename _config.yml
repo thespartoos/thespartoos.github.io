@@ -19,6 +19,7 @@ title: Thespartoos # the main title
 tagline: Cybersecurity Analyst # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
+  Welcome to the Thespartoos Technical Blog, your go-to resource for cutting-edge research, CVEs, lab write-ups, and remediation advice. Stay informed, gain insights, and fortify your cybersecurity defences.
   tagline: Research & blog posts about Cybersecurity.
 
 # Fill in the protocol & hostname for your site.

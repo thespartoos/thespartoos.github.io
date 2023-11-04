@@ -30,13 +30,13 @@ echo 0 > /proc/sys/kernel/randomize_va_space
 
 El resultado de dicha comando dará lugar a que no aleatoriza las direcciones de la memoria que es algo fundamental para que el Stack based sin ASLR funcione.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/ldd.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/ldd.png)
 
 Si nos fijamos bien en la segunda línea del output contiene la dirección de memoria de libc y comprobamos que es la misma en cada ejecución: `0xb7e08000`.
 
 ### Funcionamiento del programa vulnerable
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/code_vuln.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/code_vuln.png)
 
 Este sería el codigo correspondiente al binario compilado al que se va a explotar un buffer overflow a través de la técnica de stack based.
 
@@ -66,7 +66,7 @@ Una vez hecho esto a la hora de ejecutar el binario con nuestro usuario test, es
 
 Esto sería un ejemplo de como funciona el programa de manera técnica la ejecución del binario
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/exec_file.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/exec_file.png)
 
 En la primera linea de comandos lo que ha ocurrido es que en la variable buffer la cual tiene de tamaño 64 bytes, está almacenando la letra que le estamos pasando como argumento en este caso la letra **"A"**.
 
@@ -119,7 +119,7 @@ r $(python3 -c 'print("A"*100)')
 
 Dado los comandos anteriores dará como resultado lo siguiente.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/registers.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/registers.png)
 
 Como podemos observar los registros de (ESP, EBP y EIP) están sobrescritos por nuestras **"A"**, por lo tanto en lo primero que nos tenemos que fijar es en &nbsp;`EIP`&nbsp;podemos observar que apunta a la dirección de ***0x41414141*** que como nos lo indica a su derecha son nuestras **"A"**
 
@@ -127,7 +127,7 @@ Como podemos observar los registros de (ESP, EBP y EIP) están sobrescritos por 
 
 De las primeras cosas que debemos de averiguar para poder explotar el Stack based es conocer el numero de bytes exactos para controlar el registro de EIP. Para ello podemos hacerlo de manera manual pero utilizando [**gdb-peda**](https://github.com/longld/peda).
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/patternCreate.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/patternCreate.png)
 
 Lo que acabamos de realizar es generar un patrón por peda que posteriormente nos permitirá conocer el valor exacto de bytes que debemos de enviar para poder controlar exactamente el EIP.
 
@@ -141,7 +141,7 @@ r 'AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeA
 
 una vez ejecutado podremos saber el `offset`&nbsp; **(cantidad de bytes)** exacto para poder manipular el EIP.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/offset.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/offset.png)
 
 Exactamente son 68 bytes que debemos de enviar para controlar el EIP. Para poder saber si es la cantidad exacta podemos comprobarlo de manera manual de manera rápida.
 
@@ -153,7 +153,7 @@ r $(python3 -c 'print("A"*68 + "B"*4)')
 
 La dirección a la que debería de apuntar EIP es ***0x42424242*** correspondiente a nuestras **"B"**.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/eipM.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/eipM.png)
 
 #### Plan de ataque de EIP
 
@@ -177,7 +177,7 @@ r $(python3 -c 'print("A"*100 + "B"*4 + "\x90"*100)')
 
 Lo que está ocurriendo es que estamos sobrescribiendo el ESP con los nops `"\x90"*100`&nbsp; por lo tanto podremos elegir una dirección entre las que sobrescribimos en el ESP.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/nops.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/nops.png)
 
 > La dirección de la memoria escogida es **0xbfffef10**.
 {: .prompt-info }
@@ -222,7 +222,7 @@ if __name__ == '__main__':
 
 Para poder desplegar el ataque simplemente debemos de ejecutar lo siguiente y al ser el binario SUID y propietario root cuando se ejecute el shellcode nos ejecutará una shell como root.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/final.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/final.png)
 
 
 ### Recommendation
@@ -244,7 +244,7 @@ void main (int argc, char **argv) {
 
 Como podemos ver en la linea hemos sustituido la función insegura de &nbsp;`strcpy`&nbsp; por la de **strncpy** en donde dicha función comprobará antes la longitud de lo que desea copiar con el buffer de la memoria a donde lo va a copiar y el flujo del programa no corrompe.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/conclusion.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/conclusion.png)
 
 ### Conclusión
 

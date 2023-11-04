@@ -35,13 +35,13 @@ echo 2 > /proc/sys/kernel/randomize_va_space
 
 El resultado de dicha comando dará lugar aleatorice las direcciones de la memoria que añade una capa de seguridad para la explotacion del buffer overflow.
 
-![](http://127.0.0.1:4000/assets/img/favicons/AslrBypass/ldd.png)
+![](https://thespartoos.github.io/assets/img/favicons/AslrBypass/ldd.png)
 
 Si nos fijamos bien en la segunda línea del output contiene la dirección de memoria de libc y comprobamos que **NO** es la misma en cada ejecución.
 
 ### Funcionamiento del programa vulnerable
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/code_vuln.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/code_vuln.png)
 
 Este sería el codigo correspondiente al binario compilado al que se va a explotar un buffer overflow a través de la técnica de Ret2libc.
 
@@ -71,7 +71,7 @@ Una vez hecho esto a la hora de ejecutar eel binario con nuestro usuario test, s
 
 Esto sería un ejemplo de como funciona el programa de manera técnica la ejecución del binario
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/exec_file.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/exec_file.png)
 
 En la primera linea de comandos lo que ha ocurrido es que en la variable buffer la cual tiene de tamaño 64 bytes, está almacenando la letra que le estamos pasando como argumento en este caso la letra **"A"**.
 
@@ -126,7 +126,7 @@ r $(python3 -c 'print("A"*100)')
 
 Dado los comandos anteriores dará como resultado lo siguiente.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/registers.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/registers.png)
 
 Como podemos observar los registros de (ESP, EBP y EIP) están sobrescritos por nuestras **"A"**, por lo tanto en lo primero que nos tenemos que fijar es en &nbsp;`EIP`&nbsp;podemos observar que apunta a la dirección de ***0x41414141*** que como nos lo indica a su derecha son nuestras **"A"**
 
@@ -134,7 +134,7 @@ Como podemos observar los registros de (ESP, EBP y EIP) están sobrescritos por 
 
 De las primeras cosas que debemos de averiguar para poder explotar el Ret2libc es conocer el numero de bytes exactos para controlar el registro de EIP. Para ello podemos hacerlo de manera manual pero utilizando [**gdb-peda**](https://github.com/longld/peda).
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/patternCreate.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/patternCreate.png)
 
 Lo que acabamos de realizar es generar un patrón por peda que posteriormente nos permitirá conocer el valor exacto de bytes que debemos de enviar para poder controlar exactamente el EIP.
 
@@ -148,7 +148,7 @@ r 'AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeA
 
 una vez ejecutado podremos saber el `offset`&nbsp; **(cantidad de bytes)** exacto para poder manipular el EIP.
 
-![](http://127.0.0.1:4000/assets/img/favicons/Ret2Libc/offset.png)
+![](https://thespartoos.github.io/assets/img/favicons/Ret2Libc/offset.png)
 
 Exactamente son 76 bytes que debemos de enviar para controlar el EIP. Para poder saber si es la cantidad exacta podemos comprobarlo de manera manual de manera rápida.
 
@@ -160,7 +160,7 @@ r $(python3 -c 'print("A"*76 + "B"*4)')
 
 La dirección a la que debería de apuntar EIP es ***0x42424242*** correspondiente a nuestras **"B"**.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/eipM.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/eipM.png)
 
 #### Plan de ataque
 
@@ -170,7 +170,7 @@ En este caso al estar el ASLR Activado se nos complica un poco más el ataque qu
 
 En este caso deberemos de seleccionar una de las direcciones &nbsp;`base de libc`&nbsp; las cuales se obtienen de la siguiente manera:
 
-![](http://127.0.0.1:4000/assets/img/favicons/AslrBypass/reps.png)
+![](https://thespartoos.github.io/assets/img/favicons/AslrBypass/reps.png)
 
 Como vemos, hemos detectado que existen colisiones de direcciones en la memoria lo cual quiere decir que hay repeticiones. El plan de ataque en sí consiste en conseguir los offsets de &nbsp;`system`&nbsp;, &nbsp;`exit`&nbsp; y &nbsp;`bin_sh`&nbsp; para posteriormente poder sumarle la dirección **base de libc** que nosotros elegimos y calcular las direcciones de &nbsp;`system`&nbsp;, &nbsp;`exit`&nbsp; y &nbsp;`bin_sh`&nbsp; **reales**. A continuación lo veremos en acción para que se comprenda mejor.
 
@@ -181,7 +181,7 @@ Por lo tanto deberemos de hacer "fuerza bruta" ejecutando el programa con el exp
 
 Para obtener los offsets de system, exit y bin_sh deberemos de ejecutar los siguientes comandos:
 
-![](http://127.0.0.1:4000/assets/img/favicons/AslrBypass/offsets.png)
+![](https://thespartoos.github.io/assets/img/favicons/AslrBypass/offsets.png)
 
 readelf es una herramienta de línea de comandos en sistemas Linux y Unix que se utiliza para analizar archivos ejecutables y objetos en formato ELF (Executable and Linkable Format). Los archivos ELF son un formato común para programas y bibliotecas en sistemas operativos basados en Unix, como Linux.
 
@@ -189,7 +189,7 @@ Con este comando hemos conseguido obtener el offset de &nbsp;`system`&nbsp; y &n
 
 Para obtener el último offset que necesitamos deberemos de ejecutar el siguiente comando:
 
-![](http://127.0.0.1:4000/assets/img/favicons/AslrBypass/strings.png)
+![](https://thespartoos.github.io/assets/img/favicons/AslrBypass/strings.png)
 
 Una vez con todos los offsets obtenidos prosigamos con la creación del exploit.
 
@@ -245,7 +245,7 @@ if __name__ == '__main__':
 
 Este sería el exploit el cual con la libreria subprocess con la funcion call podemos ejecutar desde el mismo exploit el binario en cuestión junto con el payload como argumento para poder realizar el ataque y el resultado sería el siguiente.
 
-![](http://127.0.0.1:4000/assets/img/favicons/AslrBypass/final.png)
+![](https://thespartoos.github.io/assets/img/favicons/AslrBypass/final.png)
 
 Finalmente hemos logrado poder realizar una llamada a nivel de sistema ejecutandonos una **/bin/sh** pudiendo ejecutar comandos.
 

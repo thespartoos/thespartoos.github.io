@@ -35,13 +35,13 @@ echo 0 > /proc/sys/kernel/randomize_va_space
 
 El resultado de dicha comando dará lugar a que no aleatoriza las direcciones de la memoria que es algo fundamental para que el Ret2libc sin ASLR funcione.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/ldd.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/ldd.png)
 
 Si nos fijamos bien en la segunda línea del output contiene la dirección de memoria de libc y comprobamos que es la misma en cada ejecución: `0xb7e08000`.
 
 ### Funcionamiento del programa vulnerable
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/code_vuln.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/code_vuln.png)
 
 Este sería el codigo correspondiente al binario compilado al que se va a explotar un buffer overflow a través de la técnica de Ret2libc.
 
@@ -71,7 +71,7 @@ Una vez hecho esto a la hora de ejecutar eel binario con nuestro usuario test, s
 
 Esto sería un ejemplo de como funciona el programa de manera técnica la ejecución del binario
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/exec_file.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/exec_file.png)
 
 En la primera linea de comandos lo que ha ocurrido es que en la variable buffer la cual tiene de tamaño 64 bytes, está almacenando la letra que le estamos pasando como argumento en este caso la letra **"A"**.
 
@@ -126,7 +126,7 @@ r $(python3 -c 'print("A"*100)')
 
 Dado los comandos anteriores dará como resultado lo siguiente.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/registers.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/registers.png)
 
 Como podemos observar los registros de (ESP, EBP y EIP) están sobrescritos por nuestras **"A"**, por lo tanto en lo primero que nos tenemos que fijar es en &nbsp;`EIP`&nbsp;podemos observar que apunta a la dirección de ***0x41414141*** que como nos lo indica a su derecha son nuestras **"A"**
 
@@ -134,7 +134,7 @@ Como podemos observar los registros de (ESP, EBP y EIP) están sobrescritos por 
 
 De las primeras cosas que debemos de averiguar para poder explotar el Ret2libc es conocer el numero de bytes exactos para controlar el registro de EIP. Para ello podemos hacerlo de manera manual pero utilizando [**gdb-peda**](https://github.com/longld/peda).
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/patternCreate.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/patternCreate.png)
 
 Lo que acabamos de realizar es generar un patrón por peda que posteriormente nos permitirá conocer el valor exacto de bytes que debemos de enviar para poder controlar exactamente el EIP.
 
@@ -148,7 +148,7 @@ r 'AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeA
 
 una vez ejecutado podremos saber el `offset`&nbsp; **(cantidad de bytes)** exacto para poder manipular el EIP.
 
-![](http://127.0.0.1:4000/assets/img/favicons/Ret2Libc/offset.png)
+![](https://thespartoos.github.io/assets/img/favicons/Ret2Libc/offset.png)
 
 Exactamente son 76 bytes que debemos de enviar para controlar el EIP. Para poder saber si es la cantidad exacta podemos comprobarlo de manera manual de manera rápida.
 
@@ -160,7 +160,7 @@ r $(python3 -c 'print("A"*76 + "B"*4)')
 
 La dirección a la que debería de apuntar EIP es ***0x42424242*** correspondiente a nuestras **"B"**.
 
-![](http://127.0.0.1:4000/assets/img/favicons/StackBased/eipM.png)
+![](https://thespartoos.github.io/assets/img/favicons/StackBased/eipM.png)
 
 #### Plan de ataque
 
@@ -170,7 +170,7 @@ El flujo de este ataque consiste en poder controlar el EIP para poder apuntar a 
 
 Antes que nada vamos a ejecutar el binario desde gdb-peda con el comando &nbsp;`r <whatever>`&nbsp; y para poder obtener dichas direcciones deberemos de ejecutar los siguientes comandos dentro de gdb-peda.
 
-![](http://127.0.0.1:4000/assets/img/favicons/Ret2Libc/data.png)
+![](https://thespartoos.github.io/assets/img/favicons/Ret2Libc/data.png)
 
 ### Desarrollo del exploit
 
@@ -221,7 +221,7 @@ if __name__ == '__main__':
 
 Este sería el exploit el cual con la libreria subprocess con la funcion call podemos ejecutar desde el mismo exploit el binario en cuestión junto con el payload como argumento para poder realizar el ataque y el resultado sería el siguiente.
 
-![](http://127.0.0.1:4000/assets/img/favicons/Ret2Libc/final.png)
+![](https://thespartoos.github.io/assets/img/favicons/Ret2Libc/final.png)
 
 Finalmente hemos logrado poder realizar una llamada a nivel de sistema ejecutandonos una **/bin/sh** pudiendo ejecutar comandos.
 

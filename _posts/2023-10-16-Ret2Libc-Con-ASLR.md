@@ -1,7 +1,7 @@
 ---
 title: Buffer Overflow Ret2libc con ASLR
 author: thespartoos
-date: 2023-10-16 00:34:00 +0800
+date: 2023-10-24 00:34:00 +0800
 tags: [Binary Exploitation]
 categories: [Buffer Overflow x32]
 image:

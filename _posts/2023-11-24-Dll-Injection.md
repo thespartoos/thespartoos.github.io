@@ -14,7 +14,7 @@ image:
 
 Una DLL (Dynamic-Link Library) es una biblioteca que contiene código y datos que pueden usar más de un programa al mismo tiempo. Esto es crucial debido a que las aplicaciones de windows reutilizan código, con lo cuál lo hace más eficiente.
 
-![](https://thespartoos.github.io0/assets/img/favicons/DllInjection/Dllmodules.png)
+![](https://thespartoos.github.io/assets/img/favicons/DllInjection/Dllmodules.png)
 
 
 Al inyectar una DLL en un proceso que ya se está ejecutando, el malware puede obtener el mismo nivel de acceso y privilegios que el proceso mismo.
@@ -109,7 +109,7 @@ Sólo consta de &nbsp;`DllMain`&nbsp; cuál es la función principal de la bibli
 
 En el caso de que quieras realizar en Visual Studio la DLL deberemos de configurar una opción dentro del IDE. Lo primero es crear el proyecto en C++ y luego configurar la opción.
 
-![]https://thespartoos.github.io0/assets/img/favicons/DllInjection/changeDLL.png)
+![](https://thespartoos.github.io0/assets/img/favicons/DllInjection/changeDLL.png)
 
 Lo que estamos haciendo es decirle al IDE que queremos compilar para una DLL y así cuando generemos nuestro código lo hará para DLL.
 

@@ -109,7 +109,7 @@ Sólo consta de &nbsp;`DllMain`&nbsp; cuál es la función principal de la bibli
 
 En el caso de que quieras realizar en Visual Studio la DLL deberemos de configurar una opción dentro del IDE. Lo primero es crear el proyecto en C++ y luego configurar la opción.
 
-![](https://thespartoos.github.io0/assets/img/favicons/DllInjection/changeDLL.png)
+![](https://thespartoos.github.io/assets/img/favicons/DllInjection/changeDLL.png)
 
 Lo que estamos haciendo es decirle al IDE que queremos compilar para una DLL y así cuando generemos nuestro código lo hará para DLL.
 
